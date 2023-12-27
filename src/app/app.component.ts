@@ -6,6 +6,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDividerModule } from '@angular/material/divider';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -21,6 +22,7 @@ import { map, shareReplay } from 'rxjs/operators';
     MatListModule,
     MatIconModule,
     MatExpansionModule,
+    MatDividerModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
