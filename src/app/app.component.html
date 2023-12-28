@@ -8,7 +8,12 @@
     [opened]="!(isHandset$ | async)"
   >
     <mat-toolbar style="width: 16rem">
-      <img src="/assets/logo.png" alt="logo" />
+      <img
+        style="cursor: pointer"
+        src="/assets/logo.png"
+        alt="logo"
+        routerLink=""
+      />
       <span class="spacer"></span>
       <button
         mat-icon-button
@@ -26,7 +31,7 @@
           <mat-panel-title> Extreme Loading</mat-panel-title>
         </mat-expansion-panel-header>
 
-        <a mat-list-item href="#">Blast</a>
+        <a mat-list-item routerLink="blast">Blast</a>
         <a mat-list-item href="#">Assesment</a>
       </mat-expansion-panel>
       <a mat-list-item href="#">Robust</a>

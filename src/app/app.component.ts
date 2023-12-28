@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
@@ -17,6 +17,7 @@ import { map, shareReplay } from 'rxjs/operators';
   imports: [
     CommonModule,
     RouterOutlet,
+    RouterLink,
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,

@@ -1,0 +1,55 @@
+<h3>Blast</h3>
+
+<p>
+  Blast is an IMSAFER module that computes pressure time series applied on a
+  structure resulting from blast explosions.
+</p>
+
+<p style="font-size: small">
+  <a href="/assets/Blast Parameters.pdf">Read more</a>
+</p>
+
+<h4>Blast case parameters</h4>
+
+<p>Please fill the form below for a new Blast Case calculation</p>
+
+<div class="fx-layout-column">
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Blast Case ID</mat-label>
+      <input matInput type="string" />
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Charge weight (in kg)</mat-label>
+      <input matInput type="number" />
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Structure Width (in m)</mat-label>
+      <input matInput type="number" />
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Structure Length (in m)</mat-label>
+      <input matInput type="number" />
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Structure Height (in m)</mat-label>
+      <input matInput type="number" />
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" type="submit">Blast</button>
+  </div>
+</div>
