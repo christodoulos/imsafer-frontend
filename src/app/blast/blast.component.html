@@ -9,47 +9,97 @@
   <a href="/assets/Blast Parameters.pdf">Read more</a>
 </p>
 
+@if(!jobID) {
+
 <h4>Blast case parameters</h4>
 
 <p>Please fill the form below for a new Blast Case calculation</p>
 
-<div class="fx-layout-column">
-  <div>
-    <mat-form-field appearance="outline">
-      <mat-label>Blast Case ID</mat-label>
-      <input matInput type="string" />
-      <mat-error>Required</mat-error>
-    </mat-form-field>
+<form [formGroup]="form">
+  <div class="fx-layout-column">
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Blast Case ID</mat-label>
+        <input matInput type="string" formControlName="blastCaseID" />
+        <mat-error>Required</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Charge weight (in kg)</mat-label>
+        <input matInput type="number" formControlName="chargeWeight" />
+        <mat-error>Required</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Distance (in m)</mat-label>
+        <input matInput type="number" formControlName="distance" />
+        <mat-error>Required</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Structure Width (in m)</mat-label>
+        <input matInput type="number" formControlName="structureWidth" />
+        <mat-error>Required</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Structure Length (in m)</mat-label>
+        <input matInput type="number" formControlName="structureLength" />
+        <mat-error>Required</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Structure Height (in m)</mat-label>
+        <input matInput type="number" formControlName="structureHeight" />
+        <mat-error>Required</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        (click)="onSubmit()"
+        [disabled]="!form.valid"
+      >
+        Blast
+      </button>
+    </div>
   </div>
-  <div>
-    <mat-form-field appearance="outline">
-      <mat-label>Charge weight (in kg)</mat-label>
-      <input matInput type="number" />
-      <mat-error>Required</mat-error>
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field appearance="outline">
-      <mat-label>Structure Width (in m)</mat-label>
-      <input matInput type="number" />
-      <mat-error>Required</mat-error>
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field appearance="outline">
-      <mat-label>Structure Length (in m)</mat-label>
-      <input matInput type="number" />
-      <mat-error>Required</mat-error>
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field appearance="outline">
-      <mat-label>Structure Height (in m)</mat-label>
-      <input matInput type="number" />
-      <mat-error>Required</mat-error>
-    </mat-form-field>
-  </div>
-  <div>
-    <button mat-raised-button color="primary" type="submit">Blast</button>
+</form>
+
+} @else {
+
+<div *ngIf="!completed">
+  <p class="text-sm text-gray-700">Job is currently running ...</p>
+  <button mat-raised-button color="primary" (click)="refresh()">
+    Refresh job status
+  </button>
+</div>
+<div *ngIf="completed && !jobFailed" class="flex-layout-column fx-gap--4px">
+  <p class="text-sm text-gray-700">Job is finished</p>
+  <img [src]="thumbnail" />
+  <div class="fx-layout-row fx-gap--4px">
+    <button (click)="downloadResults()" mat-raised-button color="primary">
+      Download Results
+    </button>
+    <button (click)="reload()" mat-raised-button color="primary">
+      New Blast
+    </button>
   </div>
 </div>
+<div *ngIf="jobFailed" class="flex-layout-column fx-gap--4px">
+  <p class="text-red-500">Job failed</p>
+  <p>Server said:</p>
+  <p class="text-sm text-gray-700">{{ failedReason }}</p>
+  <button (click)="reload()" mat-raised-button color="primary">
+    New Blast
+  </button>
+</div>
+
+}
