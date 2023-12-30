@@ -1,0 +1,75 @@
+<!-- <div class="flex flex-col space-y-4">
+  <ng-container *ngIf="(strengthenJobs$ | async)?.length">
+    <div class="flex flex-col" *ngIf="strengthenJobs$ | async">
+      <div class="flex text-lg space-x-2 items-center">
+        <h5>Strengthen Results</h5>
+       
+      </div>
+      <table class="table-auto text-sm">
+        <thead>
+          <tr>
+            <th class="text-left whitespace-nowrap">Job Name</th>
+            <th class="text-left whitespace-nowrap">Job Progress</th>
+            <th class="text-left whitespace-nowrap">Job Results</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let job of strengthenJobs$ | async" class="border">
+            <td class="whitespace-nowrap">
+              {{ job?.data?.name }}
+            </td>
+            <td>{{ job?.progress }}</td>
+            <td>
+              <button
+                mat-raised-button
+                color="primary"
+                *ngIf="job?.finishedOn"
+                class="bg-indigo-500 p-1 mt-1 cursor-pointer text-white font-semibold flex space-x-2 items-center"
+                (click)="downloadFile(job.id, job.data.name)"
+              >
+                Download
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+
+  @if((fireJobs$ | async)?.length) {
+  <div class="fx-layout-row fx-gap--16px fx-align--x-center">
+    <h4>Fire Results</h4>
+    <mat-icon style="cursor: pointer">refresh</mat-icon>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Job Name</th>
+        <th>Job Progress</th>
+        <th>Job Results</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for ( job of fireJobs$ | async; track job) {
+      <tr>
+        <td>
+          {{ job.data.name }}
+        </td>
+        <td>{{ job.progress }}</td>
+        <td>
+          @if (job.finishedOn) {
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="downloadFire(job.id, job.data.name)"
+          >
+            Download
+          </button>
+          }
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  }
+</div> -->

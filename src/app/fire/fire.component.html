@@ -1,0 +1,185 @@
+<h3>Fire Safety</h3>
+
+<p>Fire Safety is an IMSAFER module that ...</p>
+
+<p style="font-size: small">
+  <a href="/assets/Fire Safety.pdf">Read more</a>
+</p>
+
+@if (!jobID) {
+<h4>Fire Safety case parameters</h4>
+
+<p>Please fill the form below for a new Fire Safety Case calculation</p>
+
+<form [formGroup]="form0">
+  <mat-form-field appearance="outline">
+    <mat-label>Fire Safety Case ID</mat-label>
+    <input matInput type="text" formControlName="fireCaseID" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+</form>
+
+<form [formGroup]="form1">
+  <mat-form-field appearance="outline">
+    <mat-label>Formulation</mat-label>
+    <mat-select formControlName="formulation">
+      <mat-option
+        *ngFor="let formulation of formulations; index as i"
+        [value]="formvals[i]"
+      >
+        {{ formulation }}
+      </mat-option>
+    </mat-select>
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+</form>
+
+<form [formGroup]="form2">
+  <mat-form-field appearance="outline">
+    <mat-label>Area of building floors in m&#178;</mat-label>
+    <input matInput type="number" formControlName="area" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+</form>
+
+<form [formGroup]="form3">
+  <p>Cost per m&#178; of each 1 of the 16 measures, in currency/m&#178;</p>
+  <mat-form-field appearance="outline" style="width: 6rem">
+    <mat-label>Measure 1</mat-label>
+    <input matInput type="number" formControlName="1" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 6rem">
+    <mat-label>Measure 2</mat-label>
+    <input matInput type="number" formControlName="2" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 6rem">
+    <mat-label>Measure 3</mat-label>
+    <input matInput type="number" formControlName="3" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 6rem">
+    <mat-label>Measure 4</mat-label>
+    <input matInput type="number" formControlName="4" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 6rem">
+    <mat-label>Measure 5</mat-label>
+    <input matInput type="number" formControlName="5" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 6rem">
+    <mat-label>Measure 6</mat-label>
+    <input matInput type="number" formControlName="6" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 6rem">
+    <mat-label>Measure 7</mat-label>
+    <input matInput type="number" formControlName="7" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 6rem">
+    <mat-label>Measure 8</mat-label>
+    <input matInput type="number" formControlName="8" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 6rem">
+    <mat-label>Measure 9</mat-label>
+    <input matInput type="number" formControlName="9" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 7rem">
+    <mat-label>Measure 10</mat-label>
+    <input matInput type="number" formControlName="10" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 7rem">
+    <mat-label>Measure 11</mat-label>
+    <input matInput type="number" formControlName="11" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 7rem">
+    <mat-label>Measure 12</mat-label>
+    <input matInput type="number" formControlName="12" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 7rem">
+    <mat-label>Measure 13</mat-label>
+    <input matInput type="number" formControlName="13" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 7rem">
+    <mat-label>Measure 14</mat-label>
+    <input matInput type="number" formControlName="14" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 7rem">
+    <mat-label>Measure 15</mat-label>
+    <input matInput type="number" formControlName="15" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 7rem">
+    <mat-label>Measure 16</mat-label>
+    <input matInput type="number" formControlName="16" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+</form>
+
+<form [formGroup]="form4">
+  <mat-form-field appearance="outline">
+    <mat-label>Target Budjet</mat-label>
+    <input matInput type="number" formControlName="targetBudget" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Target Epsilon</mat-label>
+    <input matInput type="number" formControlName="targetEpsilon" />
+    <mat-error>Required</mat-error>
+  </mat-form-field>
+</form>
+
+<button
+  mat-raised-button
+  color="primary"
+  type="submit"
+  (click)="onSubmit()"
+  [disabled]="
+    !(form0.valid && form1.valid && form2.valid && form3.valid && form4.valid)
+  "
+>
+  Opimize
+</button>
+
+} @else {
+
+<div *ngIf="!completed">
+  <p class="text-sm text-gray-700">
+    Job is currently running ... (progress {{ progress }} %)
+  </p>
+  <button mat-raised-button color="primary" (click)="refresh()">
+    Refresh job status
+  </button>
+</div>
+<div *ngIf="completed && !jobFailed" class="flex-layout-column fx-gap--4px">
+  <p class="text-sm text-gray-700">Job is finished</p>
+  <img [src]="thumbnail" />
+  <div class="fx-layout-row fx-gap--4px">
+    <button (click)="downloadResults()" mat-raised-button color="primary">
+      Download Results
+    </button>
+    <button (click)="reload()" mat-raised-button color="primary">
+      New Fire Safety
+    </button>
+  </div>
+</div>
+<div *ngIf="jobFailed" class="flex-layout-column fx-gap--4px">
+  <p class="text-red-500">Job failed</p>
+  <p>Server said:</p>
+  <p class="text-sm text-gray-700">{{ failedReason }}</p>
+  <button (click)="reload()" mat-raised-button color="primary">
+    New Fire Safety
+  </button>
+</div>
+
+}

@@ -1,0 +1,35 @@
+<h3>Robust</h3>
+
+<p>Robust is an IMSAFER module that ...</p>
+
+<p style="font-size: small">
+  <a href="/assets/robust.pdf">Read more</a>
+</p>
+
+@if(!jobID) {
+<app-file-upload
+  [fileType]="'csv'"
+  (case)="submitCase($event)"
+></app-file-upload>
+} @else {
+<div *ngIf="!completed" class="p-2 flex flex-col space-y-2">
+  <p class="text-sm text-gray-700">
+    Job is currently running ... Progress: {{ progress }}%
+  </p>
+  <button (click)="refresh()">Refresh job status</button>
+</div>
+<div *ngIf="completed && !jobFailed" class="p-2 flex flex-col space-y-2">
+  <p class="text-sm text-gray-700">Job is finished</p>
+  <img [src]="thumbnail" />
+  <div class="flex items-center justify-between">
+    <button (click)="downloadResults()">Download Results</button>
+    <button (click)="reload()">New Strengthen</button>
+  </div>
+</div>
+<div *ngIf="jobFailed" class="p-2 flex flex-col space-y-2">
+  <p class="text-red-500">Job failed</p>
+  <p>Server said:</p>
+  <p class="text-sm text-gray-700">{{ failedReason }}</p>
+  <button (click)="reload()">New Strengthen</button>
+</div>
+}

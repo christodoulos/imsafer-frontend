@@ -1,0 +1,47 @@
+<h4>Upload your data</h4>
+
+<mat-form-field appearance="outline">
+  <mat-label>Your Case ID</mat-label>
+  <input matInput type="text" name="name" id="name" [(ngModel)]="name" />
+  <mat-error>Required</mat-error>
+</mat-form-field>
+
+<input
+  type="file"
+  #fileInput
+  style="display: none"
+  accept="text/csv"
+  (change)="onFileAdded()"
+/>
+
+<div class="fx-layout-column fx-gap--4px">
+  <div class="fx-layout-row fx-align--x-center fx-gap--4px">
+    @if(file) {
+    <span class="text-sm">
+      {{ file.name }} &nbsp; {{ file.size }}K &nbsp;
+    </span>
+    } @else {
+    <span class="text-sm">Select a {{ fileType }} file:</span>
+    }
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="fileInput.click()"
+    >
+      Select
+    </button>
+  </div>
+
+  <div>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="emitCase()"
+      type="button"
+    >
+      Upload
+    </button>
+  </div>
+</div>

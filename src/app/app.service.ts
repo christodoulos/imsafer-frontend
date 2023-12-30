@@ -3,10 +3,24 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
-export interface StrengthenJob {
+export interface BullJob {
   jobID: string;
   name: string;
   uuid: string;
+}
+
+interface FireJobData {
+  name: string;
+  fireData: string;
+  uuid: string;
+}
+
+interface FireJob {
+  data: FireJobData;
+  attemptsMade: number;
+  id: string;
+  progress: number;
+  finishedOn: number;
 }
 
 @Injectable({
@@ -15,27 +29,20 @@ export interface StrengthenJob {
 export class ImsaferService {
   constructor(private http: HttpClient, private router: Router) {}
 
-  uploadStrengthen(data: FormData): Observable<StrengthenJob> {
-    return this.http.post<StrengthenJob>(
-      'http://localhost:3001/optimize/strengthen',
-      data
-    );
-  }
-
   blastJob(data: FormData): Observable<any> {
-    return this.http.post<StrengthenJob>(
+    return this.http.post<BullJob>(
       'http://localhost:3001/optimize/blast',
       data
     );
   }
 
-  getStrengthenJob(jobID: string) {
+  getBullJob(jobID: string) {
     return this.http.get<{
       completed?: boolean;
       failed?: boolean;
       failedReason?: string;
       progress?: string;
-    }>(`http://localhost:3001/optimize/strengthenJob/${jobID}`);
+    }>(`http://localhost:3001/optimize/bullJob/${jobID}`);
   }
 
   getBlastJob(jobID: string) {
@@ -49,15 +56,6 @@ export class ImsaferService {
   getBlastJobImage(jobID: string) {
     return this.http.get(
       `http://localhost:3001/optimize/blast/${jobID}/picture`,
-      {
-        responseType: 'blob',
-      }
-    );
-  }
-
-  getStrengthenJobImage(jobID: string) {
-    return this.http.get(
-      `http://localhost:3001/optimize/strengthen/${jobID}/picture`,
       {
         responseType: 'blob',
       }
@@ -89,19 +87,49 @@ export class ImsaferService {
       });
   }
 
+  downloadFire(jobID: string, filename: string): void {
+    console.log(jobID, filename);
+    const baseUrl = `http://localhost:3001/optimize/fireResults/${jobID}`;
+
+    this.http
+      .get(baseUrl, { responseType: 'blob' })
+      .subscribe((response: any) => {
+        const dataType = response.type;
+        console.log(response, dataType);
+        const binaryData = [];
+        binaryData.push(response);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = window.URL.createObjectURL(
+          new Blob(binaryData, { type: dataType })
+        );
+        if (filename) downloadLink.setAttribute('download', `${filename}.txt`);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+      });
+  }
+
   createImageFromBlob(image: Blob): string | ArrayBuffer | null {
     const reader = new FileReader();
-    // reader.addEventListener(
-    //   'load',
-    //   async () => {
-    //     return reader.result;
-    //   },
-    //   false
-    // );
-
     if (image) {
       reader.readAsDataURL(image);
     }
     return reader.result;
+  }
+
+  getFireJobs() {
+    return this.http.get<FireJob[]>('http://localhost:3001/optimize/fire');
+  }
+
+  getFireJob(jobID: string) {
+    return this.http.get<{
+      completed?: boolean;
+      failed?: boolean;
+      failedReason?: string;
+      progress?: number;
+    }>(`http://localhost:3001/optimize/fire/${jobID}`);
+  }
+
+  fireJob(data: FormData): Observable<any> {
+    return this.http.post<BullJob>('http://localhost:3001/optimize/fire', data);
   }
 }
