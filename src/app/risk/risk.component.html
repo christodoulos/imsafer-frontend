@@ -1,1 +1,51 @@
-<p>risk works!</p>
+<h3>Risk</h3>
+
+<p>Risk is an IMSAFER module that ...</p>
+
+<p style="font-size: small">
+  <a href="/assets/Risk.pdf">Read more</a>
+</p>
+
+<h4>Risk case parameters</h4>
+
+<p>Please fill the form below for a new Risk Case calculation</p>
+
+<form [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <mat-label>Hazard Type</mat-label>
+    <mat-select formControlName="hazardType">
+      <mat-option value="0.9">Terrorism</mat-option>
+      <mat-option value="0.8">Industrial Accidents</mat-option>
+      <mat-option value="0.5">Other</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Building Structure</mat-label>
+    <mat-select formControlName="buildingStructure">
+      <mat-option value="0.9">High-rise</mat-option>
+      <mat-option value="0.8">Industrial Facility</mat-option>
+      <mat-option value="0.5">Other</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Emergency Reponse Plan</mat-label>
+    <mat-select formControlName="emergencyResponsePlan">
+      <mat-option value="0.9">Evacuation Procedures</mat-option>
+      <mat-option value="0.7">Limited Response Plan</mat-option>
+      <mat-option value="0.5">Other</mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>
+
+<button
+  mat-raised-button
+  color="primary"
+  [disabled]="!form.valid"
+  (click)="onSubmit()"
+>
+  Calculate
+</button>
+
+@if(riskIndex) {
+<p>Calculated Risk Index: {{ riskIndex }}</p>
+}

@@ -211,11 +211,6 @@ export class FireComponent {
   }
 
   downloadResults() {
-    // this.service.downloadResults(
-    //   'http://localhost:3001/optimize/fireResults',
-    //   this.jobID || '',
-    //   this.caseName
-    // );
     this.service.downloadFire(this.jobID || '', this.caseName);
   }
 }
