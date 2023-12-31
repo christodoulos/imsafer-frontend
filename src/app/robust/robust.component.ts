@@ -3,11 +3,12 @@ import { Component, inject } from '@angular/core';
 import { ImsaferService } from '../app.service';
 import { FileUploadComponent } from '../file-upload/file-upload.component';
 import { Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-robust',
   standalone: true,
-  imports: [CommonModule, FileUploadComponent],
+  imports: [CommonModule, FileUploadComponent, MatButtonModule],
   templateUrl: './robust.component.html',
   styleUrl: './robust.component.css',
 })
@@ -17,37 +18,36 @@ export class RobustComponent {
 
   jobID: string | undefined;
   completed: boolean | undefined;
-  progress = '0';
   thumbnail: ArrayBuffer | string | null | undefined;
   jobFailed = false;
   failedReason = '';
   caseName = '';
+  progress = 0;
 
   submitCase(data: FormData) {
-    console.log(data);
-    // this.service.uploadStrengthen(data).subscribe((data) => {
-    //   this.jobID = data['jobID'];
-    //   this.caseName = data['name'];
-    //   this.router.navigate(['Results']);
-    //   if (this.jobID) {
-    //     this.service.getBullJob(this.jobID).subscribe((job) => {
-    //       this.completed = job.completed;
-    //     });
-    //   }
-    // });
+    this.service.robustJob(data).subscribe((data) => {
+      console.log('ROBUST JOB', data);
+      this.jobID = data['jobID'];
+      this.caseName = data['name'];
+      if (this.jobID) {
+        this.service.getRobustJob(this.jobID).subscribe((job) => {
+          this.completed = job.completed;
+        });
+      }
+    });
   }
 
   refresh() {
     if (this.jobID)
-      this.service.getBullJob(this.jobID).subscribe((job) => {
+      this.service.getRobustJob(this.jobID).subscribe((job) => {
         console.log(job);
-        this.progress = job.progress || '';
+        this.progress = job.progress || 0;
         if (job.completed && !job.failed && this.jobID) {
           this.completed = true;
-          // this.service.getStrengthenJobImage(this.jobID).subscribe((img) => {
-          //   this.createImageFromBlob(img);
-          //   // this.thumbnail = this.service.createImageFromBlob(img);
-          // });
+          this.service.getRobustJobImage(this.jobID).subscribe((img) => {
+            this.createImageFromBlob(img);
+            this.createImageFromBlob(img);
+          });
         }
         if (job.failed) {
           this.failedReason = job.failedReason || '';
@@ -58,12 +58,12 @@ export class RobustComponent {
   }
 
   reload() {
-    this.service.reloadComponent('/Strengthen');
+    this.service.reloadComponent('/robust');
   }
 
   downloadResults() {
     this.service.downloadResults(
-      '/api/optimize/strengthen',
+      'http://localhost:3001/optimize/robustResults',
       this.jobID || '',
       this.caseName
     );

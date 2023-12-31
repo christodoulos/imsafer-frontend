@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -27,40 +27,8 @@ interface FireJob {
   providedIn: 'root',
 })
 export class ImsaferService {
-  constructor(private http: HttpClient, private router: Router) {}
-
-  blastJob(data: FormData): Observable<any> {
-    return this.http.post<BullJob>(
-      'http://localhost:3001/optimize/blast',
-      data
-    );
-  }
-
-  getBullJob(jobID: string) {
-    return this.http.get<{
-      completed?: boolean;
-      failed?: boolean;
-      failedReason?: string;
-      progress?: string;
-    }>(`http://localhost:3001/optimize/bullJob/${jobID}`);
-  }
-
-  getBlastJob(jobID: string) {
-    return this.http.get<{
-      completed?: boolean;
-      failed?: boolean;
-      failedReason?: string;
-    }>(`http://localhost:3001/optimize/blast/${jobID}`);
-  }
-
-  getBlastJobImage(jobID: string) {
-    return this.http.get(
-      `http://localhost:3001/optimize/blast/${jobID}/picture`,
-      {
-        responseType: 'blob',
-      }
-    );
-  }
+  http = inject(HttpClient);
+  router = inject(Router);
 
   reloadComponent(path: string) {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
@@ -87,6 +55,68 @@ export class ImsaferService {
       });
   }
 
+  createImageFromBlob(image: Blob): string | ArrayBuffer | null {
+    const reader = new FileReader();
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+    return reader.result;
+  }
+
+  getBullJob(jobID: string) {
+    return this.http.get<{
+      completed?: boolean;
+      failed?: boolean;
+      failedReason?: string;
+      progress?: string;
+    }>(`http://localhost:3001/optimize/bullJob/${jobID}`);
+  }
+
+  // BLAST ////////////////////////////////////////////////
+
+  blastJob(data: FormData): Observable<any> {
+    return this.http.post<BullJob>(
+      'http://localhost:3001/optimize/blast',
+      data
+    );
+  }
+
+  getBlastJob(jobID: string) {
+    return this.http.get<{
+      completed?: boolean;
+      failed?: boolean;
+      failedReason?: string;
+    }>(`http://localhost:3001/optimize/blast/${jobID}`);
+  }
+
+  getBlastJobImage(jobID: string) {
+    return this.http.get(
+      `http://localhost:3001/optimize/blast/${jobID}/picture`,
+      {
+        responseType: 'blob',
+      }
+    );
+  }
+
+  // FIRE ////////////////////////////////////////////////
+
+  getFireJobs() {
+    return this.http.get<FireJob[]>('http://localhost:3001/optimize/fire');
+  }
+
+  getFireJob(jobID: string) {
+    return this.http.get<{
+      completed?: boolean;
+      failed?: boolean;
+      failedReason?: string;
+      progress?: number;
+    }>(`http://localhost:3001/optimize/fire/${jobID}`);
+  }
+
+  fireJob(data: FormData): Observable<any> {
+    return this.http.post<BullJob>('http://localhost:3001/optimize/fire', data);
+  }
+
   downloadFire(jobID: string, filename: string): void {
     console.log(jobID, filename);
     const baseUrl = `http://localhost:3001/optimize/fireResults/${jobID}`;
@@ -108,28 +138,31 @@ export class ImsaferService {
       });
   }
 
-  createImageFromBlob(image: Blob): string | ArrayBuffer | null {
-    const reader = new FileReader();
-    if (image) {
-      reader.readAsDataURL(image);
-    }
-    return reader.result;
+  // ROBUST ////////////////////////////////////////////////
+
+  robustJob(data: FormData): Observable<any> {
+    console.log('ROBUST JOB SUBMITTED', data);
+    return this.http.post<BullJob>(
+      'http://localhost:3001/optimize/robust',
+      data
+    );
   }
 
-  getFireJobs() {
-    return this.http.get<FireJob[]>('http://localhost:3001/optimize/fire');
-  }
-
-  getFireJob(jobID: string) {
+  getRobustJob(jobID: string) {
     return this.http.get<{
       completed?: boolean;
       failed?: boolean;
       failedReason?: string;
       progress?: number;
-    }>(`http://localhost:3001/optimize/fire/${jobID}`);
+    }>(`http://localhost:3001/optimize/robust/${jobID}`);
   }
 
-  fireJob(data: FormData): Observable<any> {
-    return this.http.post<BullJob>('http://localhost:3001/optimize/fire', data);
+  getRobustJobImage(jobID: string) {
+    return this.http.get(
+      `http://localhost:3001/optimize/robust/${jobID}/picture`,
+      {
+        responseType: 'blob',
+      }
+    );
   }
 }
