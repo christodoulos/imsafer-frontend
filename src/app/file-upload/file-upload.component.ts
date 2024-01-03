@@ -28,7 +28,8 @@ import { MatInputModule } from '@angular/material/input';
 export class FileUploadComponent {
   @ViewChild('fileInput') fileElementRef: ElementRef | undefined;
   @Output() case = new EventEmitter<FormData>();
-  @Input() fileType = '';
+  @Input() fileTypes: string[] = [];
+  @Input() fileAccepts = 'text/csv';
   fileInput: HTMLInputElement | undefined;
   file: File | null = null;
   name = '';
@@ -58,5 +59,9 @@ export class FileUploadComponent {
     });
 
     this.case.emit(this.formData);
+  }
+
+  flattenFileTypes(): string {
+    return this.fileTypes.join(' or ');
   }
 }

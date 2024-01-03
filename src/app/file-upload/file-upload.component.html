@@ -10,7 +10,7 @@
   type="file"
   #fileInput
   style="display: none"
-  accept="text/csv"
+  [accept]="fileAccepts"
   (change)="onFileAdded()"
 />
 
@@ -21,7 +21,7 @@
       {{ file.name }} &nbsp; {{ file.size }}K &nbsp;
     </span>
     } @else {
-    <span class="text-sm">Select a {{ fileType }} file:</span>
+    <span class="text-sm">Select a {{ flattenFileTypes() }} file:</span>
     }
 
     <button

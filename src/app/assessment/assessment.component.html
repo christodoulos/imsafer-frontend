@@ -1,1 +1,44 @@
-<p>assessment works!</p>
+<h3>Assessment</h3>
+
+<p>Assessment is an IMSAFER module that ...</p>
+
+<p style="font-size: small">
+  <a href="/assets/robust.pdf">Read more</a>
+</p>
+
+@if(!jobID) {
+<h4>Assessment case parameters</h4>
+<p>Please upload either a csv or a thcx (BIM) file</p>
+<app-file-upload
+  [fileTypes]="['thcx', 'csv']"
+  [fileAccepts]="'text/csv,.thcx'"
+  (case)="submitCase($event)"
+></app-file-upload>
+} @else {
+<div *ngIf="!completed" class="flex-layout-column fx-gap--4px">
+  <p class="text-sm text-gray-700">
+    Job is currently running ... Progress: {{ progress | number : "1.2-2" }}%
+  </p>
+  <button (click)="refresh()" mat-raised-button color="primary">
+    Refresh job status
+  </button>
+</div>
+<div *ngIf="completed && !jobFailed" class="flex-layout-column fx-gap--4px">
+  <p class="text-sm text-gray-700">Job is finished</p>
+  <img [src]="thumbnail" />
+  <div class="fx-layout-row fx-gap--4px">
+    <button (click)="downloadResults()" mat-raised-button color="primary">
+      Download Results
+    </button>
+    <button (click)="reload()" mat-raised-button color="primary">
+      New Assessment
+    </button>
+  </div>
+</div>
+<div *ngIf="jobFailed" class="flex-layout-column fx-gap--4px">
+  <p class="text-red-500">Job failed</p>
+  <p>Server said:</p>
+  <p class="text-sm text-gray-700">{{ failedReason }}</p>
+  <button (click)="reload()">New Assessment</button>
+</div>
+}

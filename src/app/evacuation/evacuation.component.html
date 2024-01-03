@@ -1,1 +1,47 @@
-<p>evacuation works!</p>
+<h3>Evacuation</h3>
+
+<p>Evacuation is an IMSAFER module that ...</p>
+
+<p style="font-size: small">
+  <a href="/assets/robust.pdf">Read more</a>
+</p>
+
+@if(!jobID) {
+<h4>Evacuation case parameters</h4>
+<p>Please upload either a csv or a thcx (BIM) file</p>
+<app-file-upload
+  [fileTypes]="['thcx', 'csv']"
+  [fileAccepts]="'text/csv,.thcx'"
+  (case)="submitCase($event)"
+></app-file-upload>
+} @else {
+<div *ngIf="!completed" class="flex-layout-column fx-gap--4px">
+  <p class="text-sm text-gray-700">
+    Job is currently running ... Progress: {{ progress | number : "1.2-2" }}%
+  </p>
+  <button (click)="refresh()" mat-raised-button color="primary">
+    Refresh job status
+  </button>
+</div>
+<div *ngIf="completed && !jobFailed" class="flex-layout-column fx-gap--4px">
+  <p class="text-sm text-gray-700">Job is finished</p>
+  <video width="640" height="480" controls>
+    <source src="/assets/Output.webm" type="video/webm" />
+    Your browser does not support the video tag.
+  </video>
+  <div class="fx-layout-row fx-gap--4px">
+    <!-- <button (click)="downloadResults()" mat-raised-button color="primary">
+      Download Results
+    </button> -->
+    <button (click)="reload()" mat-raised-button color="primary">
+      New Evacuation
+    </button>
+  </div>
+</div>
+<div *ngIf="jobFailed" class="flex-layout-column fx-gap--4px">
+  <p class="text-red-500">Job failed</p>
+  <p>Server said:</p>
+  <p class="text-sm text-gray-700">{{ failedReason }}</p>
+  <button (click)="reload()">New Evacuation</button>
+</div>
+}

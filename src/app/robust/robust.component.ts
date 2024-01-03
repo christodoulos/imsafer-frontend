@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ImsaferService } from '../app.service';
 import { FileUploadComponent } from '../file-upload/file-upload.component';
-import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -14,7 +13,6 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class RobustComponent {
   service = inject(ImsaferService);
-  router = inject(Router);
 
   jobID: string | undefined;
   completed: boolean | undefined;
@@ -44,10 +42,6 @@ export class RobustComponent {
         this.progress = job.progress || 0;
         if (job.completed && !job.failed && this.jobID) {
           this.completed = true;
-          this.service.getRobustJobImage(this.jobID).subscribe((img) => {
-            this.createImageFromBlob(img);
-            this.createImageFromBlob(img);
-          });
         }
         if (job.failed) {
           this.failedReason = job.failedReason || '';

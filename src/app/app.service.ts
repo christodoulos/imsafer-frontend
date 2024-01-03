@@ -165,4 +165,93 @@ export class ImsaferService {
       }
     );
   }
+
+  // EVACUATION ////////////////////////////////////////////////
+
+  evacuationJob(data: FormData): Observable<any> {
+    return this.http.post<BullJob>(
+      'http://localhost:3001/optimize/evacuation',
+      data
+    );
+  }
+
+  getEvacuationJob(jobID: string) {
+    console.log('GET EVACUATION JOB SERVICE', jobID);
+    return this.http.get<{
+      completed?: boolean;
+      failed?: boolean;
+      failedReason?: string;
+      progress?: number;
+    }>(`http://localhost:3001/optimize/evacuation/${jobID}`);
+  }
+
+  downloadEvacuation(jobID: string, filename: string): void {
+    console.log(jobID, filename);
+    const baseUrl = `http://localhost:3001/optimize/evacuationResults/${jobID}`;
+
+    this.http
+      .get(baseUrl, { responseType: 'blob' })
+      .subscribe((response: any) => {
+        const dataType = response.type;
+        console.log(response, dataType);
+        const binaryData = [];
+        binaryData.push(response);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = window.URL.createObjectURL(
+          new Blob(binaryData, { type: dataType })
+        );
+        if (filename) downloadLink.setAttribute('download', `${filename}.zip`);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+      });
+  }
+
+  // ASSESSMENT ////////////////////////////////////////////////
+
+  assessmentJob(data: FormData): Observable<any> {
+    return this.http.post<BullJob>(
+      'http://localhost:3001/optimize/assessment',
+      data
+    );
+  }
+
+  getAssessmentJob(jobID: string) {
+    console.log('GET ASSESSMENT JOB SERVICE', jobID);
+    return this.http.get<{
+      completed?: boolean;
+      failed?: boolean;
+      failedReason?: string;
+      progress?: number;
+    }>(`http://localhost:3001/optimize/assessment/${jobID}`);
+  }
+
+  getAssessmentJobImage(jobID: string) {
+    return this.http.get(
+      `http://localhost:3001/optimize/assessment/${jobID}/picture`,
+      {
+        responseType: 'blob',
+      }
+    );
+  }
+
+  downloadAssessment(jobID: string, filename: string): void {
+    console.log(jobID, filename);
+    const baseUrl = `http://localhost:3001/optimize/assessmentResults/${jobID}`;
+
+    this.http
+      .get(baseUrl, { responseType: 'blob' })
+      .subscribe((response: any) => {
+        const dataType = response.type;
+        console.log(response, dataType);
+        const binaryData = [];
+        binaryData.push(response);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = window.URL.createObjectURL(
+          new Blob(binaryData, { type: dataType })
+        );
+        if (filename) downloadLink.setAttribute('download', `${filename}.zip`);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+      });
+  }
 }

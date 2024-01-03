@@ -10,13 +10,13 @@
 <h4>Robust case parameters</h4>
 <p>Please upload your csv file</p>
 <app-file-upload
-  [fileType]="'csv'"
+  [fileTypes]="['csv']"
   (case)="submitCase($event)"
 ></app-file-upload>
 } @else {
 <div *ngIf="!completed" class="flex-layout-column fx-gap--4px">
   <p class="text-sm text-gray-700">
-    Job is currently running ... Progress: {{ progress }}%
+    Job is currently running ... Progress: {{ progress | number : "1.2-2" }}%
   </p>
   <button (click)="refresh()" mat-raised-button color="primary">
     Refresh job status
@@ -24,7 +24,6 @@
 </div>
 <div *ngIf="completed && !jobFailed" class="flex-layout-column fx-gap--4px">
   <p class="text-sm text-gray-700">Job is finished</p>
-  <img [src]="thumbnail" />
   <div class="fx-layout-row fx-gap--4px">
     <button (click)="downloadResults()" mat-raised-button color="primary">
       Download Results
