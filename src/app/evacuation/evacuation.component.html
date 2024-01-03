@@ -19,13 +19,14 @@
   <p class="text-sm text-gray-700">
     Job is currently running ... Progress: {{ progress | number : "1.2-2" }}%
   </p>
+
   <button (click)="refresh()" mat-raised-button color="primary">
     Refresh job status
   </button>
 </div>
 <div *ngIf="completed && !jobFailed" class="flex-layout-column fx-gap--4px">
   <p class="text-sm text-gray-700">Job is finished</p>
-  <video width="640" height="480" controls>
+  <video width="640" height="480" controls loop>
     <source src="/assets/Output.webm" type="video/webm" />
     Your browser does not support the video tag.
   </video>
