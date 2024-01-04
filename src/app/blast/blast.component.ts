@@ -10,6 +10,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ImsaferService } from '../app.service';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../environments/environment';
+
+const API = environment.apiUrl;
 
 @Component({
   selector: 'app-blast',
@@ -113,7 +116,7 @@ export class BlastComponent {
 
   downloadResults() {
     this.service.downloadResults(
-      'http://localhost:3001/optimize/blastResults',
+      `${API}/optimize/blastResults`,
       this.jobID || '',
       this.caseName
     );

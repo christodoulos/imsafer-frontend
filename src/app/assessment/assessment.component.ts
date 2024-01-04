@@ -63,7 +63,7 @@ export class AssessmentComponent {
   }
 
   reload() {
-    this.service.reloadComponent('/evacuation');
+    this.service.reloadComponent('/assessment');
   }
 
   // downloadResults() {

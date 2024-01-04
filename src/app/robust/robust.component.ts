@@ -3,6 +3,9 @@ import { Component, inject } from '@angular/core';
 import { ImsaferService } from '../app.service';
 import { FileUploadComponent } from '../file-upload/file-upload.component';
 import { MatButtonModule } from '@angular/material/button';
+import { environment } from '../../environments/environment';
+
+const API = environment.apiUrl;
 
 @Component({
   selector: 'app-robust',
@@ -57,7 +60,7 @@ export class RobustComponent {
 
   downloadResults() {
     this.service.downloadResults(
-      'http://localhost:3001/optimize/robustResults',
+      `${API}/optimize/robustResults`,
       this.jobID || '',
       this.caseName
     );

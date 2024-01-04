@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../environments/environment';
+
+const API = environment.apiUrl;
 
 export interface BullJob {
   jobID: string;
@@ -49,7 +52,7 @@ export class ImsaferService {
         downloadLink.href = window.URL.createObjectURL(
           new Blob(binaryData, { type: dataType })
         );
-        if (filename) downloadLink.setAttribute('download', `${filename}.zip`);
+        if (filename) downloadLink.setAttribute('download', `${filename}.txt`);
         document.body.appendChild(downloadLink);
         downloadLink.click();
       });
@@ -69,16 +72,13 @@ export class ImsaferService {
       failed?: boolean;
       failedReason?: string;
       progress?: string;
-    }>(`http://localhost:3001/optimize/bullJob/${jobID}`);
+    }>(`${API}/optimize/bullJob/${jobID}`);
   }
 
   // BLAST ////////////////////////////////////////////////
 
   blastJob(data: FormData): Observable<any> {
-    return this.http.post<BullJob>(
-      'http://localhost:3001/optimize/blast',
-      data
-    );
+    return this.http.post<BullJob>(`${API}/optimize/blast`, data);
   }
 
   getBlastJob(jobID: string) {
@@ -86,22 +86,19 @@ export class ImsaferService {
       completed?: boolean;
       failed?: boolean;
       failedReason?: string;
-    }>(`http://localhost:3001/optimize/blast/${jobID}`);
+    }>(`${API}/optimize/blast/${jobID}`);
   }
 
   getBlastJobImage(jobID: string) {
-    return this.http.get(
-      `http://localhost:3001/optimize/blast/${jobID}/picture`,
-      {
-        responseType: 'blob',
-      }
-    );
+    return this.http.get(`${API}/optimize/blast/${jobID}/picture`, {
+      responseType: 'blob',
+    });
   }
 
   // FIRE ////////////////////////////////////////////////
 
   getFireJobs() {
-    return this.http.get<FireJob[]>('http://localhost:3001/optimize/fire');
+    return this.http.get<FireJob[]>(`${API}/optimize/fire`);
   }
 
   getFireJob(jobID: string) {
@@ -110,16 +107,16 @@ export class ImsaferService {
       failed?: boolean;
       failedReason?: string;
       progress?: number;
-    }>(`http://localhost:3001/optimize/fire/${jobID}`);
+    }>(`${API}/optimize/fire/${jobID}`);
   }
 
   fireJob(data: FormData): Observable<any> {
-    return this.http.post<BullJob>('http://localhost:3001/optimize/fire', data);
+    return this.http.post<BullJob>(`${API}/optimize/fire`, data);
   }
 
   downloadFire(jobID: string, filename: string): void {
     console.log(jobID, filename);
-    const baseUrl = `http://localhost:3001/optimize/fireResults/${jobID}`;
+    const baseUrl = `${API}/optimize/fireResults/${jobID}`;
 
     this.http
       .get(baseUrl, { responseType: 'blob' })
@@ -142,10 +139,7 @@ export class ImsaferService {
 
   robustJob(data: FormData): Observable<any> {
     console.log('ROBUST JOB SUBMITTED', data);
-    return this.http.post<BullJob>(
-      'http://localhost:3001/optimize/robust',
-      data
-    );
+    return this.http.post<BullJob>(`${API}/optimize/robust`, data);
   }
 
   getRobustJob(jobID: string) {
@@ -154,25 +148,19 @@ export class ImsaferService {
       failed?: boolean;
       failedReason?: string;
       progress?: number;
-    }>(`http://localhost:3001/optimize/robust/${jobID}`);
+    }>(`${API}/optimize/robust/${jobID}`);
   }
 
   getRobustJobImage(jobID: string) {
-    return this.http.get(
-      `http://localhost:3001/optimize/robust/${jobID}/picture`,
-      {
-        responseType: 'blob',
-      }
-    );
+    return this.http.get(`${API}/optimize/robust/${jobID}/picture`, {
+      responseType: 'blob',
+    });
   }
 
   // EVACUATION ////////////////////////////////////////////////
 
   evacuationJob(data: FormData): Observable<any> {
-    return this.http.post<BullJob>(
-      'http://localhost:3001/optimize/evacuation',
-      data
-    );
+    return this.http.post<BullJob>(`${API}/optimize/evacuation`, data);
   }
 
   getEvacuationJob(jobID: string) {
@@ -182,12 +170,12 @@ export class ImsaferService {
       failed?: boolean;
       failedReason?: string;
       progress?: number;
-    }>(`http://localhost:3001/optimize/evacuation/${jobID}`);
+    }>(`${API}/optimize/evacuation/${jobID}`);
   }
 
   downloadEvacuation(jobID: string, filename: string): void {
     console.log(jobID, filename);
-    const baseUrl = `http://localhost:3001/optimize/evacuationResults/${jobID}`;
+    const baseUrl = `${API}/optimize/evacuationResults/${jobID}`;
 
     this.http
       .get(baseUrl, { responseType: 'blob' })
@@ -209,10 +197,7 @@ export class ImsaferService {
   // ASSESSMENT ////////////////////////////////////////////////
 
   assessmentJob(data: FormData): Observable<any> {
-    return this.http.post<BullJob>(
-      'http://localhost:3001/optimize/assessment',
-      data
-    );
+    return this.http.post<BullJob>(`${API}/optimize/assessment`, data);
   }
 
   getAssessmentJob(jobID: string) {
@@ -222,21 +207,18 @@ export class ImsaferService {
       failed?: boolean;
       failedReason?: string;
       progress?: number;
-    }>(`http://localhost:3001/optimize/assessment/${jobID}`);
+    }>(`${API}/optimize/assessment/${jobID}`);
   }
 
   getAssessmentJobImage(jobID: string) {
-    return this.http.get(
-      `http://localhost:3001/optimize/assessment/${jobID}/picture`,
-      {
-        responseType: 'blob',
-      }
-    );
+    return this.http.get(`${API}/optimize/assessment/${jobID}/picture`, {
+      responseType: 'blob',
+    });
   }
 
   downloadAssessment(jobID: string, filename: string): void {
     console.log(jobID, filename);
-    const baseUrl = `http://localhost:3001/optimize/assessmentResults/${jobID}`;
+    const baseUrl = `${API}/optimize/assessmentResults/${jobID}`;
 
     this.http
       .get(baseUrl, { responseType: 'blob' })
